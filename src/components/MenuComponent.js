@@ -41,7 +41,7 @@ const Menu = (props) => {
           <BreadcrumbItem active>Menu</BreadcrumbItem>
         </Breadcrumb>
         <div className="col-12">
-          <h3>Menu</h3>
+        <h3 class="text-secondary">Menu</h3>
           <hr />
         </div>
       </div>
