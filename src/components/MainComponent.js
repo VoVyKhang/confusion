@@ -6,15 +6,16 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
+import { actions } from "react-redux-form";
+// import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
 import {
-  addComment,
+  postComment,
   fetchDishes,
   fetchComments,
   fetchPromos,
 } from "../redux/ActionCreators";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { actions } from "react-redux-form";
 
 const mapStateToProps = (state) => {
   return {
@@ -26,8 +27,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addComment: (dishId, rating, author, comment) =>
-    dispatch(addComment(dishId, rating, author, comment)),
+  // addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+  postComment: (dishId, rating, author, comment) =>
+    dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => {
     dispatch(fetchDishes());
   },
@@ -39,6 +41,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class Main extends Component {
+  // constructor(props) {
+  //   super(props);
+  // }
+
   componentDidMount() {
     this.props.fetchDishes();
     this.props.fetchComments();
@@ -78,7 +84,8 @@ class Main extends Component {
             (comment) => comment.dishId === parseInt(match.params.dishId, 10)
           )}
           commentsErrMess={this.props.comments.errMess}
-          addComment={this.props.addComment}
+          // addComment={this.props.addComment}
+          postComment={this.props.postComment}
         />
       );
     };
@@ -99,6 +106,7 @@ class Main extends Component {
             component={() => <Menu dishes={this.props.dishes} />}
           />
           <Route path="/menu/:dishId" component={DishWithId} />
+          {/* <Route exact path="/contactus" component={Contact} /> */}
           <Route
             exact
             path="/contactus"
@@ -114,4 +122,5 @@ class Main extends Component {
   }
 }
 
+// export default withRouter(connect(mapStateToProps)(Main));
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
