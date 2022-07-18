@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { Component } from "react";
 import {
   Card,
@@ -29,11 +28,9 @@ const minLength = (len) => (val) => val && val.length >= len;
 class CommentForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isModalOpen: false,
     };
-
     this.toggleModal = this.toggleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -43,42 +40,38 @@ class CommentForm extends Component {
   }
 
   handleSubmit(values) {
+    // console.log("Current State is: " + JSON.stringify(values));
+    // alert("Current State is: " + JSON.stringify(values));
     this.toggleModal();
-    // this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     this.props.postComment(
       this.props.dishId,
       values.rating,
       values.author,
       values.comment
     );
-    // console.log("Current State is: " + JSON.stringify(values));
-    // alert("Current State is: " + JSON.stringify(values));
   }
 
   render() {
     return (
       <div className="container">
-        <div className="row mt-3">
+        <div className="row">
           <Button outline onClick={this.toggleModal}>
-            <span className="fa fa-pencil fa-lg"></span>{" "}
-            <span class="text-dark font-weight-bold">Submit Comment</span>
+            <span className="fa fa-pencil fa-lg"></span> Submit Comment
           </Button>
 
           <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-            <ModalHeader toggle={this.toggleModal}>
-              <h4 class="text-info">Submit Comment</h4>
+            <ModalHeader closeButton toggle={this.toggleModal}>
+              Submit Comment
             </ModalHeader>
             <ModalBody>
               <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                 <Row className="form-group">
                   <Col md={12}>
-                    <Label htmlFor="rating">
-                      <h6 classs="text-secondary">Rating</h6>
-                    </Label>
+                    <Label htmlFor="rating">Rating</Label>
                     <Control.select
                       model=".rating"
                       name="rating"
-                      className="form-control text-dark"
+                      className="form-control"
                     >
                       <option>1</option>
                       <option>2</option>
@@ -90,15 +83,13 @@ class CommentForm extends Component {
                 </Row>
                 <Row className="form-group">
                   <Col md={12}>
-                    <Label htmlFor="author">
-                      <h6 classs="text-secondary">Your Name</h6>
-                    </Label>
+                    <Label htmlFor="author">Your Name</Label>
                     <Control.text
                       model=".author"
                       id="author"
                       name="author"
                       placeholder="Your Name"
-                      className="form-control text-dark"
+                      className="form-control"
                       validators={{
                         required,
                         minLength: minLength(3),
@@ -119,22 +110,20 @@ class CommentForm extends Component {
                 </Row>
                 <Row className="form-group">
                   <Col md={12}>
-                    <Label htmlFor="comment">
-                      <h6 classs="text-secondary">Comment</h6>
-                    </Label>
+                    <Label htmlFor="comment">Comment</Label>
                     <Control.textarea
                       model=".comment"
                       id="comment"
                       name="comment"
                       rows="6"
-                      className="form-control text-dark"
+                      className="form-control"
                     />
                   </Col>
                 </Row>
                 <Row className="form-group">
                   <Col md={12}>
-                    <Button type="submit" color="info">
-                      <span class="text-light">Submit</span>
+                    <Button type="submit" color="primary">
+                      Submit
                     </Button>
                   </Col>
                 </Row>
@@ -159,7 +148,9 @@ function RenderDish({ dish }) {
         <Card>
           <CardImg top src={baseUrl + dish.image} alt={dish.name} />
           <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
+            <CardTitle>
+              <h4 className="text-info">{dish.name}</h4>
+            </CardTitle>
             <CardText>{dish.description}</CardText>
           </CardBody>
         </Card>
@@ -168,19 +159,17 @@ function RenderDish({ dish }) {
   );
 }
 
-// function RenderComments({comments}) {
-// function RenderComments({comments, addComment, dishId}) {
 function RenderComments({ comments, postComment, dishId }) {
   if (comments != null) {
     return (
       <div className="col-12 col-md-5 m-1">
-        <h4 class="mb-2 text-info">Comments</h4>
+        <h4 className="text-secondary">Comments</h4>
         <ul className="list-unstyled">
           <Stagger in>
             {comments.map((comment) => {
               return (
                 <Fade in>
-                  <li key={comment.id}>
+                  <li key={comment.name}>
                     <p>{comment.comment}</p>
                     <p>
                       -- {comment.author} ,{" "}
@@ -196,8 +185,6 @@ function RenderComments({ comments, postComment, dishId }) {
             })}
           </Stagger>
         </ul>
-        {/* <CommentForm /> */}
-        {/* <CommentForm dishId={dishId} addComment={addComment} /> */}
         <CommentForm dishId={dishId} postComment={postComment} />
       </div>
     );
@@ -206,7 +193,7 @@ function RenderComments({ comments, postComment, dishId }) {
   }
 }
 
-const DishDetail = (props) => {
+const Dishdetail = (props) => {
   if (props.isLoading) {
     return (
       <div className="container">
@@ -223,40 +210,38 @@ const DishDetail = (props) => {
         </div>
       </div>
     );
-  } else if (props.dish != null) {
-    return (
-      <div className="container">
-        <div className="row">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/home">Home</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/menu">Menu</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-          </Breadcrumb>
-          <div className="col-12">
-            {/* <h3 class="text-info">Menu</h3> */}
-            <h3 class="text-secondary">Menu</h3>
-            <hr />
+  } else if (props.dish != null)
+    if (props.dish != null) {
+      return (
+        <div className="container">
+          <div className="row">
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <Link to="/home">Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <Link to="/menu">Menu</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+            </Breadcrumb>
+            <div className="col-12">
+              <h3 className="text-secondary">{props.dish.name}</h3>
+              <hr />
+            </div>
+          </div>
+          <div className="row">
+            <RenderDish dish={props.dish} />
+            <RenderComments
+              comments={props.comments}
+              postComment={props.postComment}
+              dishId={props.dish.id}
+            />
           </div>
         </div>
-        <div className="row  text-dark text-justify">
-          <RenderDish dish={props.dish} />
-          {/* <RenderComments comments={props.comments}/> */}
-          <RenderComments
-            comments={props.comments}
-            // addComment={props.addComment}
-            postComment={props.postComment}
-            dishId={props.dish.id}
-          />
-        </div>
-      </div>
-    );
-  } else {
-    return <div></div>;
-  }
+      );
+    } else {
+      return <div></div>;
+    }
 };
 
-export default DishDetail;
+export default Dishdetail;
